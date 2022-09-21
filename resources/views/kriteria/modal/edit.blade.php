@@ -31,7 +31,9 @@
                     <input autocomplete="off" type="hidden" name="user_id" id="user_id" value="{{ auth()->user()->id }}" required class="form-control"/>
                     <div class="card-footer text-right">
                         <button type="submit" class="btn btn-success "><i class="fa fa-save"></i> Simpan</button>
-                        <button type="reset" class="btn btn-info"><i class="fa fa-sync-alt"></i> Clear</button>
+                        <a href="{{ route('kriteria.index') }}" class="btn btn-secondary"><span class="icon text-white-50"><i class="fas fa-arrow-left"></i></span>
+                            <span class="text">Batal</span>
+                    </a>
                     </div>
                 </div>
             </div>

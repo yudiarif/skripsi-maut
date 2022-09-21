@@ -6,7 +6,15 @@
 
         <!-- Page Heading -->
         <p class="mb-4"></p>
-
+        {{-- @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif --}}
         <!-- DataTales Example -->
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-end">
@@ -56,3 +64,4 @@
         </div>
 @include('kriteria.modal.create')
 @endsection
+
