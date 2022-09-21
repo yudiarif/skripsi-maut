@@ -47,5 +47,4 @@ Route::get('/', function () {
     return redirect('login');
 });
 
-// Route::get('/hasil-perhitungan', [HasilController::class, 'perhitungan'])->name('hasil-perhitungan');
-//Route::get('/akhir', [PerhitunganController::class, 'hasil'])->name('hasil');
+
