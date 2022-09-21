@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Kriteria;
-
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class KriteriaController extends Controller
 {
@@ -28,12 +29,12 @@ class KriteriaController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $storevalidated=$request->validate([
             'kode'=>'required',
             'nama_kriteria'=>'required',
-            'user_id'=>'required'
+            'user_id'
         ]);
-        Kriteria::create($request->all());
+        Kriteria::create($storevalidated);
         toast('Data berhasil diinput','success');
         return redirect()->route('kriteria.index');
 
@@ -48,14 +49,21 @@ class KriteriaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Kriteria $kriteria,$id)
     {
-        $request->validate([
+        
+
+        $updatevalidated=$request->validate([
             'kode'=>'required',
             'nama_kriteria'=>'required',
-            'user_id'=>'required'
+            'user_id'
         ]);
-        Kriteria::find($id)->update($request->all());
+
+      
+        //$updatevalidated=$request->validate($rules);
+
+        Kriteria::find($id)->update($updatevalidated);
+        //Kriteria::where('id',$kriteria->id)->update($updatevalidated);
         toast('Data berhasil diedit','info');
         return redirect()->route('kriteria.index');
     }
