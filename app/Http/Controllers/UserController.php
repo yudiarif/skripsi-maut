@@ -21,15 +21,6 @@ class UserController extends Controller
         return view ('user.index',compact('datauser'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -41,7 +32,6 @@ class UserController extends Controller
     {
         $validateData=$request->validate([
             'nama' => 'required',
-            'email' => 'required',
             'username' => 'required',
             'role_id' => 'required',
             'password' => 'required|confirmed',
@@ -53,27 +43,6 @@ class UserController extends Controller
         return redirect()->route('user.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -86,7 +55,6 @@ class UserController extends Controller
     {
         $validateData=$request->validate([
             'nama' => 'required',
-            'email' => 'required',
             'username' => 'required',
             'role_id' => 'required',
             'password' => 'required|confirmed',

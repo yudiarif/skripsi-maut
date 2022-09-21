@@ -1,4 +1,4 @@
-<form action="{{ route('tenaga-honorer.store') }}" method="post" enctype="multipart/form-data">
+<form action="{{ route('calon-tenaga-honorer.store') }}" method="post" enctype="multipart/form-data">
     @csrf
     <div class="modal fade text-left" id="ModalCreate" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
@@ -17,13 +17,13 @@
                             {{-- <input autocomplete="off" type="hidden" name="user_id" id="user_id" value ="1"required class="form-control"/> --}}
                             <div class="form-group col-md-6">
                                 <label class="font-weight-bold">Nama</label>
-                                <input autocomplete="off" type="text" name="nama" id="nama" required class="form-control"/>
+                                <input autocomplete="off" type="text" name="nama" id="nama" class="form-control"/>
                             </div>
                                             
                             <div class="form-group col-md-6">
                                 <label class="font-weight-bold">Jenis Kelamin</label>
                                 <select name="jenis_kelamin" id="jenis_kelamin" class="form-control" required>
-                                    <option selected>Pilih Jenis Kelamin</option>
+                                    <option value=""selected>Pilih Jenis Kelamin</option>
                                     <option value="Laki-laki">Laki-laki</option>
                                     <option value="Perempuan">Perempuan</option>						
                                 </select>
@@ -36,7 +36,7 @@
                             
                             <div class="form-group col-md-6">
                                 <label class="font-weight-bold">Nomor Telp</label>
-                                <input autocomplete="off" type="text" name="no_hp" id="no_hp" required class="form-control"/>
+                                <input autocomplete="off" type="tel" pattern="[0-9]{9,13}"  name="no_hp" id="no_hp" required class="form-control"/>
                             </div>
             
                             <div class="form-group col-md-6">
@@ -48,15 +48,16 @@
                                 <label class="font-weight-bold">Alamat Lengkap</label>
                                 <textarea class="form-control" name="alamat" id="alamat" rows="3"></textarea>
                             </div>
-                            <input autocomplete="off" type="hidden" name="users_id" id="users_id" value="{{ auth()->user()->id }}" required class="form-control"/>
+                            <input autocomplete="off" type="hidden" name="user_id" id="user_id" value="{{ auth()->user()->id }}" required class="form-control"/>
                             
                             @foreach ($kriteria as $datakriteria)
+                            
                             <input autocomplete="off" type="hidden" name="kriteria_id[]" id="kriteria_id[]" value="{{ $datakriteria->id }}" required class="form-control"/>
                             {{-- <input autocomplete="off" type="hidden" name="honorer_id[]" id="honorer_id[]" value="{{ $datahonorer->id }}" required class="form-control"/> --}}
                             <div class="form-group col-md-6">
-                                <label class="font-weight-bold">{{ $datakriteria->kriteria }}</label>
-                                <select name="subkriteria_id[]" class="form-control" id="subkriteria_id[]" required>
-                                    <option selected>Kriteria</option>
+                                <label class="font-weight-bold">{{ $datakriteria->nama_kriteria }}</label>
+                                <select name="sub_kriteria_id[]" class="form-control" id="sub_kriteria_id[]" required>
+                                    <option value=""selected>Kriteria</option>
                                     <?php $sub=$datakriteria->subkriteria?>
                                         <?php foreach ($sub as $sk): ?>
                                         <option value="{{ $sk->id }}">{{ $sk->rentang }} </option>
@@ -70,7 +71,7 @@
                     <div class="card-footer text-right">
                         <button type="submit" class="btn btn-success "><i class="fa fa-save"></i> Simpan</button>
                         {{-- <button type="reset" class="btn btn-info"><i class="fa fa-sync-alt"></i> Clear</button> --}}
-                        <a href="{{ route('tenaga-honorer.index') }}" class="btn btn-secondary"><span class="icon text-white-50"><i class="fas fa-arrow-left"></i></span>
+                        <a href="{{ route('calon-tenaga-honorer.index') }}" class="btn btn-secondary"><span class="icon text-white-50"><i class="fas fa-arrow-left"></i></span>
                                 <span class="text">Batal</span>
                         </a>
                     </div>

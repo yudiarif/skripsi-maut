@@ -1,4 +1,4 @@
-<form action="{{ route('tenaga-honorer.destroy', $datahonorer->id) }}" method="post" enctype="multipart/form-data">
+<form action="{{ route('calon-tenaga-honorer.destroy', $datahonorer->id) }}" method="post" enctype="multipart/form-data">
     @csrf
     @method('DELETE')
     <div class="modal fade" id="ModalDelete{{$datahonorer->id}}" tabindex="-1" role="dialog" aria-hidden="true">

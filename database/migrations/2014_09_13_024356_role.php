@@ -15,7 +15,7 @@ class Role extends Migration
     {
         Schema::create('role',function(Blueprint $b){
             $b->id();
-            $b->string('level_user',100)->nullable();
+            $b->string('level_user',100);
         });
     }
 

@@ -15,12 +15,11 @@ class SubKriteria extends Migration
     {
         Schema::create('sub_kriteria', function (Blueprint $b){
             $b->id();
-            $b->unsignedBigInteger('user_id');
-            $b->unsignedBigInteger('kriteria_id');
-            $b->string('rentang',255)->nullable();
+            $b->string('rentang')->nullable();
             $b->integer('nilai');
-            $b->foreign('user_id')->references ('id')->on('user');
-            $b->foreign('kriteria_id')->references ('id')->on('kriteria');
+            $b->foreignId('kriteria_id')->constrained('kriteria')->onUpdate('cascade')->onDelete('cascade');
+            $b->foreignId('user_id')->nullable()->constrained('users')->onUpdate('set null')->onDelete('set null');
+
 
         });
     }

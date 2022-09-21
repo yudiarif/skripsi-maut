@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Perhitungan;
 use Illuminate\Http\Request;
-use App\Models\TenagaHonorer;
+use App\Models\CalonTenagaHonorer;
 use App\Models\Kriteria;
-use App\Models\Alternatif;
 use App\Models\SubKriteria;
 use App\Models\Bobot;
 use App\Models\Hasil;
@@ -15,6 +14,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Session;
 use RealRashid\SweetAlert\Facades\Alert;
+use Carbon\Carbon;
 
 use Illuminate\Support\Facades\DB;
 
@@ -28,17 +28,17 @@ class PerhitunganController extends Controller
    
     public function __construct()
     {
-        $this->cards = Perhitungan::select(['perhitungan.*','kriteria.kode as kode','sub_kriteria.nilai as nilai','tenaga_honorer.nama as nama','perhitungan.id as id','tenaga_honorer.id as idhonor'])
+        $this->cards = Perhitungan::select(['perhitungan.*','kriteria.kode as kode','sub_kriteria.nilai as nilai','calon_tenaga_honorer.nama as nama','perhitungan.id as id','calon_tenaga_honorer.id as idhonor'])
         ->join('kriteria','perhitungan.kriteria_id','=','kriteria.id')
-        ->join('sub_kriteria','perhitungan.subkriteria_id','=','sub_kriteria.id')
-        ->join('tenaga_honorer','perhitungan.honorer_id','=','tenaga_honorer.id')
+        ->join('sub_kriteria','perhitungan.sub_kriteria_id','=','sub_kriteria.id')
+        ->join('calon_tenaga_honorer','perhitungan.calon_tenaga_honorer_id','=','calon_tenaga_honorer.id')
         ->get()
         ->sortBy(['kode','asc']);
 
         $this->nilaiMax = DB::table('perhitungan') 
             ->select('perhitungan.*','kriteria.kode as kode','sub_kriteria.nilai as nilai','perhitungan.id as id')
             ->join('kriteria','perhitungan.kriteria_id','=','kriteria.id')
-            ->join('sub_kriteria','perhitungan.subkriteria_id','=','sub_kriteria.id')
+            ->join('sub_kriteria','perhitungan.sub_kriteria_id','=','sub_kriteria.id')
              ->whereRaw('nilai in (select max(nilai) from perhitungan group by (kode))')
              ->get()
             ->sortBy([['kode','asc'],['nilai','dsc']])
@@ -47,7 +47,7 @@ class PerhitunganController extends Controller
         $this->nilaiMin = DB::table('perhitungan') 
             ->select('perhitungan.*','kriteria.kode as kode','sub_kriteria.nilai as nilai','perhitungan.id as id')
             ->join('kriteria','perhitungan.kriteria_id','=','kriteria.id')
-            ->join('sub_kriteria','perhitungan.subkriteria_id','=','sub_kriteria.id')
+            ->join('sub_kriteria','perhitungan.sub_kriteria_id','=','sub_kriteria.id')
              ->whereRaw('nilai in (select min(nilai) from perhitungan group by (kode))')
              ->get()
             ->sortBy([['kode','asc'],['nilai','asc']])
@@ -58,7 +58,7 @@ class PerhitunganController extends Controller
                  $this->report[$item->nama][$item->kode]=[
                      'honorer_id'=>$item->nama,
                      'kriteria_id'=>$item->kode,
-                     'subkriteria_id'=>$item->nilai
+                     'sub_kriteria_id'=>$item->nilai
                  ];
              });
 
@@ -113,11 +113,8 @@ class PerhitunganController extends Controller
     {
         $subkriteria=SubKriteria::getSubkriteria();
         $nilai = Perhitungan::with('subkriteria')->get();
-        //$hasil=Hasil::with('tenagahonorer')->get()->sortByDesc('nilai');
-        $hasil = Hasil::select(['hasil.*','tenaga_honorer.nama as nama'])
-        ->join('tenaga_honorer','hasil.honorer_id','=','tenaga_honorer.id')
-        ->get()->sortByDesc('nilai');
-        //dd($hasil);
+        $hasil= Hasil::getHasil();
+        
 
         $total = Bobot::total();
         $kodekriteria = Kriteria::all();
@@ -131,6 +128,7 @@ class PerhitunganController extends Controller
         $cards=$this->cards;
         $report=$this->report;
         $normalisasi=$this->normalisasi;
+        
         // $nbobot=$this->nbobot;
         // $preferensi=$this->preferensi;
         // $nilaipreferensi=$this->nilaipreferensi;
@@ -145,8 +143,8 @@ class PerhitunganController extends Controller
         $subkriteria=SubKriteria::getSubkriteria();
         $nilai = Perhitungan::with('subkriteria')->get();
         //$hasil=Hasil::with('tenagahonorer')->get()->sortByDesc('nilai');
-        $hasil = Hasil::select(['hasil.*','tenaga_honorer.nama as nama'])
-        ->join('tenaga_honorer','hasil.honorer_id','=','tenaga_honorer.id')
+        $hasil = Hasil::select(['hasil.*','calon_tenaga_honorer.nama as nama'])
+        ->join('calon_tenaga_honorer','hasil.calon_honorer_id','=','calon_tenaga_honorer.id')
         ->get()->sortByDesc('nilai');
         //dd($hasil);
 
@@ -183,13 +181,13 @@ class PerhitunganController extends Controller
         $bobot = Bobot::all();
         //$b=$bobot->pluck('bobot');
         //dd($b);
-        $b = Kriteria::select(['kriteria.*','kriteria.kriteria','bobot.bobot'])
+        $b = Kriteria::select(['kriteria.*','kriteria.nama_kriteria','bobot.nilai_bobot'])
         ->leftJoin('bobot','bobot.kriteria_id','=','kriteria.id')
         ->get();
         //dd($b);
 
         
-        return view('bobot.index',compact('kriteria','bobot','bobotkriteria','b'));
+        return view('bobot.index',compact('kriteria','bobot','bobotkriteria','b',));
     }
 
     /**
@@ -201,29 +199,34 @@ class PerhitunganController extends Controller
     public function store(Request $request)
     {
         $data=$request->all();
-        if (array_sum($data['bobot'])==100) {
+        if (array_sum($data['nilai_bobot'])==1) {
             foreach($data['kriteria_id']as$item=>$value){
                 $data1 =  array(
-                    // 'user_id'=>$data['user_id'][$item],
+                    
                      'kriteria_id'=>$data['kriteria_id'][$item],
-                     'bobot'=>$data['bobot'][$item],
+                     'nilai_bobot'=>$data['nilai_bobot'][$item],
+                     'user_id'=>$data['user_id'][$item],
                 );
-                Bobot::updateOrCreate(['kriteria_id'=>$data['kriteria_id'][$item]], ['bobot'=>$data['bobot'][$item]],$data1);
-            }
-            //dd($data['bobot']);
+                Bobot::updateOrCreate(['kriteria_id'=>$data['kriteria_id'][$item]], ['nilai_bobot'=>$data['nilai_bobot'][$item],
+                                        'user_id'=>$data['user_id'][$item]
             
-            $normalisasibobot = Bobot::select(['kriteria.kode as kode','bobot'])
+                                     ],$data1);
+            }
+           //dd($data);
+            
+            $normalisasibobot = Bobot::select(['kriteria.kode as kode','nilai_bobot'])
             ->join('kriteria','bobot.kriteria_id','=','kriteria.id')
             ->get();
     
-            $nbt=$normalisasibobot->pluck('bobot')->toArray();
+            $nbt=$normalisasibobot->pluck('nilai_bobot')->toArray();
             $total=array_sum($nbt);
     
             $nbobot=[];
             $nbobot['total']=array_sum($nbt);
             $normalisasibobot->each(function($item)use(&$nbobot){
-                $nbobot[$item->kode]= $item->bobot/$nbobot['total'];
+                $nbobot[$item->kode]= $item->nilai_bobot/$nbobot['total'];
             });
+            //dd($nbobot);
     
             $preferensi=[];
             foreach ($this->normalisasi as $k => $v) {
@@ -255,63 +258,27 @@ class PerhitunganController extends Controller
             $nilaipreferensi=$nilaipreferensi;
                 foreach ($nilaipreferensi as $key => $value) {
                     $hasil= new Hasil;
+                    $current_time = Carbon::now();
+                    $user_id = auth()->user()->id;
+
                     // $hasil->honorer_id=$key;
                     // $hasil->nilai=@round(($value),4);
                     // $hasil->save();
-                    $hasil->updateOrCreate(['honorer_id'=>$key],['nilai'=>@round(($value),3)]);
+                    $hasil->updateOrCreate(
+                    ['calon_tenaga_honorer_id'=>$key],
+                    ['nilai_hasil'=>@round(($value),3),
+                     'user_id'=>$user_id,
+                    'tgl_penilaian'=>$current_time
+                    ]);
                 }
             toast('Berhasil, Silahkan cek halaman Hasil Akhir untuk melihat hasil perhitungan','success');
-            //alert()->success('Berhasil','Silahkan cek halaman Hasil Akhir untuk melihat hasil perhitungan');
         } else {
-            alert()->error('Input Gagal','Bobot tidak sesuai, Total bobot lebih dari atau kurang dari 100. Silahkan input kembali');
+            alert()->error('Input Gagal','Bobot tidak sesuai, Total bobot lebih dari atau kurang dari 1. Silahkan input kembali');
         }
         //dd(array_sum($data['bobot']));
         return redirect()->route('bobot');
 
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Perhitungan  $perhitungan
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Perhitungan $perhitungan)
-    {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Perhitungan  $perhitungan
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Perhitungan $perhitungan)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Perhitungan  $perhitungan
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Perhitungan $perhitungan)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Perhitungan  $perhitungan
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Perhitungan $perhitungan)
-    {
-        //
-    }
 }

@@ -28,11 +28,11 @@ class User extends Authenticatable
     // protected $password;
 
     protected $fillable = [
-        'email','nama','username','password','role_id'
+        'nama','username','password','role_id'
     ];
 
     protected $hidden=[
-        'password','remember_token'
+        'password'
     ];
     
   

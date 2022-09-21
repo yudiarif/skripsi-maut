@@ -12,7 +12,7 @@
         @foreach ($kriteria as $data)
         <div class="card shadow mb-4">
             <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-			<h6 class="m-0 font-weight-bold text-info "><i class="fa fa-list-ul mr-2"></i>{{  $data->kode }} - {{  $data->kriteria }}</h6>
+			<h6 class="m-0 font-weight-bold text-info "><i class="fa fa-list-ul mr-2"></i>{{  $data->kode }} - {{  $data->nama_kriteria }}</h6>
                 <a href="#" data-toggle="modal" data-target="#ModalCreate{{ $data->id }}" class="btn btn-info btn-icon-split">
                     <span class="icon text-white-50">
                         <i class="fas fa fa-plus"></i>

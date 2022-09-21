@@ -15,10 +15,10 @@ class Kriteria extends Migration
     {
         Schema::create('kriteria', function (Blueprint $b) {
             $b->id();
-            $b->unsignedBigInteger('user_id');
             $b->string('kode', 100)->unique();
-            $b->string('kriteria', 255)->nullable();
-            $b->foreign('user_id')->references ('id')->on('user');
+            $b->string('nama_kriteria')->nullable();
+            $b->foreignId('user_id')->nullable()->constrained('users')->onUpdate('set null')->onDelete('set null');
+
         });
     }
 

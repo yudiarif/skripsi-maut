@@ -12,12 +12,12 @@ class Perhitungan extends Model
     public $timestamps = false;
     protected $table = 'perhitungan';
     protected $primaryKey = 'id';
-    protected $honorer_id;
+    protected $calon_tenaga_honorer_id;
     protected $kriteria_id;
-    protected $subkriteria_id;
+    protected $sub_kriteria_id;
 
     protected $fillable = [
-        'honorer_id','kriteria_id','subkriteria_id'
+        'calon_tenaga_honorer_id','kriteria_id','sub_kriteria_id'
     ];
 
     public static function getPerhitungan()
@@ -33,20 +33,20 @@ class Perhitungan extends Model
     {
         return $this->belongsTo(SubKriteria::class);
     }   
-    public function tenagahonorer()
+    public function calontenagahonorer()
     {
-        return $this->belongsTo(TenagaHonorer::class);
+        return $this->belongsTo(CalonTenagaHonorer::class);
     }   
 
-    public function getMaxMin()
-    {
-        return Perhitungan::max('subkriteria_id');
-    }
+    // public function getMaxMin()
+    // {
+    //     return Perhitungan::max('sub_kriteria_id');
+    // }
 
-    public function join()
-    {
-        return DB::table('perhitungan')->get();
-    }
+    // public function join()
+    // {
+    //     return DB::table('perhitungan')->get();
+    // }
 
   
 

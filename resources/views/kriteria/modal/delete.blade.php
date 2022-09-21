@@ -10,7 +10,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>   
-                <div class="modal-body">Apakah anda yakin untuk menghapus kriteria <b>{{$datakriteria->kriteria}}</b> ?</div>
+                <div class="modal-body">Apakah anda yakin untuk menghapus kriteria <b>{{$datakriteria->nama_kriteria}}</b> ?</div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-danger">
                         <span class="icon text-white-50">

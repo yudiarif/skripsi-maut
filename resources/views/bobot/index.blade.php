@@ -36,13 +36,13 @@
                               
                                 <tbody>
                                     <td class="text-center">{{ $no }}</td>
-                                    <td class="text-center">{{ $itembobot->kriteria }}</td>
+                                    <td class="text-center">{{ $itembobot->nama_kriteria }}</td>
                                     <td class="text-center col-sm-3">
                                         <form action="{{ route('bobot-store') }}" method="post" enctype="multipart/form-data">
                                             @csrf
                                         <input autocomplete="off" type="hidden" name="user_id[]" id="user_id[]" value="{{ auth()->user()->id }}"/>
                                         <input autocomplete="off" type="hidden" name="kriteria_id[]" id="kriteria_id[]" value="{{ $itembobot->id }}"/>
-                                        <input autocomplete="off" type="text" name="bobot[]" id="bobot[]" value="{{ $itembobot->bobot ?? '0' }}"class="form-control"/>
+                                        <input autocomplete="off" type="text" name="nilai_bobot[]" id="nilai_bobot[]" value="{{ $itembobot->nilai_bobot ?? '0' }}"class="form-control"/>
                                     </td>
                                     @php
                                         $no++

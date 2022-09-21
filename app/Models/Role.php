@@ -13,7 +13,7 @@ class Role extends Model
     protected $primaryKey = 'id';
     protected $level_user;
 
-    protected $fillable = ['user_id','level_user'];
+    protected $fillable = ['level_user'];
 
     // public function user()
     // {

@@ -1,4 +1,4 @@
-<form action="{{ route('tenaga-honorer.update',$datahonorer->id) }}" method="post" enctype="multipart/form-data">
+<form action="{{ route('calon-tenaga-honorer.update',$datahonorer->id) }}" method="post" enctype="multipart/form-data">
     @csrf
     @method('PATCH')
     <div class="modal fade text-left" id="ModalEdit{{$datahonorer->id}}" tabindex="-1" role="dialog" aria-hidden="true">
@@ -38,7 +38,7 @@
                             
                             <div class="form-group col-md-6">
                                 <label class="font-weight-bold">Nomor Telp</label>
-                                <input autocomplete="off" type="text" name="no_hp" id="no_hp" value="{{$datahonorer->no_hp}}" required class="form-control"/>
+                                <input autocomplete="off" type="tel" pattern="[0-9]{9,13}" name="no_hp" id="no_hp" value="{{$datahonorer->no_hp}}" required class="form-control"/>
                             </div>
             
                             <div class="form-group col-md-6">
@@ -50,24 +50,25 @@
                                 <label class="font-weight-bold">Alamat Lengkap</label>
                                 <textarea class="form-control" name="alamat" id="alamat" rows="3">{{$datahonorer->alamat}}</textarea>
                             </div>
-                            <input autocomplete="off" type="hidden" name="users_id" id="users_id" value="{{ auth()->user()->id}}" required class="form-control"/>
+                            <input autocomplete="off" type="hidden" name="user_id" id="user_id" value="{{ auth()->user()->id}}" required class="form-control"/>
+                            
                             @php
                                 $itemp=$datahonorer->perhitungan
                             @endphp
                                 
                             @foreach ($kriteria as $datakriteria)
-                            <input autocomplete="off" type="hidden" name="honorer_id[]" id="honorer_id[]" value="{{ $datahonorer->id }}" required class="form-control"/>
+                            <input autocomplete="off" type="hidden" name="calon_tenaga_honorer_id[]" id="calon_tenaga_honorer_id[]" value="{{ $datahonorer->id }}" required class="form-control"/>
                             <input autocomplete="off" type="hidden" name="kriteria_id[]" id="kriteria_id[]" value="{{ $datakriteria->id }}" required class="form-control"/>
                             <div class="form-group col-md-6">
-                                <label class="font-weight-bold">{{ $datakriteria->kriteria }}</label>
-                                <select name="subkriteria_id[]" class="form-control" id="subkriteria_id[]" required>
+                                <label class="font-weight-bold">{{ $datakriteria->nama_kriteria }}</label>
+                                <select name="sub_kriteria_id[]" class="form-control" id="sub_kriteria_id[]" required>
                                   
                                     <?php $sub=$datakriteria->subkriteria
                                     ?>
                                         @foreach ($sub as $sk)
                                             
                                          @foreach ($itemp as $item)
-                                        @if ($item->subkriteria_id===$sk->id)
+                                        @if ($item->sub_kriteria_id===$sk->id)
                                             <option selected value="{{ $sk->id }}">{{ $sk->rentang }} </option>
                                         @endif
                                         @endforeach
@@ -84,7 +85,7 @@
                     <div class="card-footer text-right">
                         <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Simpan</button>
                         {{-- <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i> Batal</button> --}}
-                        <a href="{{ route('tenaga-honorer.index') }}" class="btn btn-secondary"><span class="icon text-white-50"><i class="fas fa-arrow-left"></i></span>
+                        <a href="{{ route('calon-tenaga-honorer.index') }}" class="btn btn-secondary"><span class="icon text-white-50"><i class="fas fa-arrow-left"></i></span>
                             <span class="text">Batal</span>
                     </a>
                     </div>

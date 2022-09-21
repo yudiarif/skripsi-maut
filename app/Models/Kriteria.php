@@ -12,11 +12,11 @@ class Kriteria extends Model
     protected $table = 'kriteria';
     protected $primaryKey = 'id';
     protected $kode;
-    protected $kriteria;
-    protected $users_id;
+    protected $nama_kriteria;
+    protected $user_id;
 
     protected $fillable = [
-        'kode','kriteria','users_id'
+        'kode','nama_kriteria','user_id'
     ];
 
     public static function getKriteria()

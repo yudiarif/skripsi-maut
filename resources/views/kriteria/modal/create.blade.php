@@ -21,12 +21,12 @@
                                 </div>
                                  <div class="mb-3">
                                     <label class="font-weight-bold">Nama Kriteria</label>
-                                    <input autocomplete="off" type="text" name="kriteria" id="kriteria" required class="form-control"/>
+                                    <input autocomplete="off" type="text" name="nama_kriteria" id="nama_kriteria" required class="form-control"/>
                                  </div>
                             </div>
                         </div>
                     </div>
-                    <input autocomplete="off" type="hidden" name="users_id" id="users_id" value="{{ auth()->user()->id }}" required class="form-control"/>
+                    <input autocomplete="off" type="hidden" name="user_id" id="user_id" value="{{ auth()->user()->id }}" required class="form-control"/>
                     <div class="card-footer text-right">
                         <button type="submit" class="btn btn-success "><i class="fa fa-save"></i> Simpan</button>
                         <button type="reset" class="btn btn-info"><i class="fa fa-sync-alt"></i> Clear</button>

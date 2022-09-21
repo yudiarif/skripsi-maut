@@ -13,11 +13,11 @@ class Bobot extends Model
     public $timestamps=false;
     protected $table='bobot';
     protected $primaryKey='id';
-    protected $users_id;
+    protected $nilai_bobot;
     protected $kriteria_id;
-    protected $bobot;
+    protected $user_id;
 
-    protected $fillable=['users_id','kriteria_id','bobot'];
+    protected $fillable=['user_id','kriteria_id','nilai_bobot'];
 
     public static function getBobot()
     {
@@ -31,17 +31,8 @@ class Bobot extends Model
 
     public function total()
     {
-        return bobot::sum('bobot');
+        return bobot::sum('nilai_bobot');
     }
 
-    // public function normalisasi()
-    // {
-    //     $total = Bobot::sum('bobot');
-    //     $bobot = Bobot::get('bobot');
-    //     foreach ($bobot as $key => $value) {
-    //         $value/$total;
-    //     };
-    // }
-    
 
 }

@@ -11,11 +11,21 @@ class Hasil extends Model
     public $timestamps = true;
     protected $table = 'hasil';
     protected $primaryKey = 'id';
-    protected $honorer_id;
-    protected $nilai;
+    protected $nilai_hasil;
+    protected $tgl_penilaian;
+    protected $calon_tenaga_honorer_id;
+    protected $user_id;
 
+    protected $dates = ['tgl_penilaian'];
     protected $fillable = [
-        'honorer_id','nilai'
+        'calon_tenaga_honorer_id','nilai_hasil','tgl_penilaian','user_id'
     ];
+
+    public function getHasil()
+    {
+        return Hasil::select(['hasil.*','calon_tenaga_honorer.nama as nama'])
+        ->join('calon_tenaga_honorer','hasil.calon_tenaga_honorer_id','=','calon_tenaga_honorer.id')
+        ->get()->sortByDesc('nilai');
+    }
 
 }

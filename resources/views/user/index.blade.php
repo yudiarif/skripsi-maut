@@ -25,7 +25,6 @@
                                 <th width="15%" class="text-center">No.</th>
                                 <th class="text-center">Nama User</th>
                                 <th class="text-center">Username</th>
-                                <th class="text-center">Email</th>
                                 <th class="text-center">Role</th>
                                 <th class="text-center">Aksi</th>
                             </tr>
@@ -40,7 +39,6 @@
                             <td class="text-center">{{ $no }}</td>
                             <td class="text-center">{{ $user->nama }}</td>
                             <td class="text-center">{{ $user->username }}</td>
-                            <td class="text-center">{{ $user->email }}</td>
                             <td class="text-center"> 
                                 @if ($user->role_id==1)
                                 Admin

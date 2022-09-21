@@ -10,6 +10,11 @@
                             <span aria-hidden="true">&times;</span>
                         </button>        
                 </div>
+
+                @php
+                $itemp=$datahonorer->perhitungan
+                @endphp
+
                 <div class="modal-body">
                     <div class="card-body">
                         <div class="table-responsive">
@@ -17,7 +22,7 @@
                                 <thead >
                                     <div class="container card mb-4 py-3 border-left-info">
                                         <div class="row mx-3 mb-4">
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 Nama :
                                             </div>
                                             <div class="col-md-6 ">
@@ -25,7 +30,7 @@
                                             </div>
                                         </div>
                                         <div class="row mx-3 mb-4">
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 Jenis Kelamin :
                                             </div>
                                             <div class="col-md-6">
@@ -33,7 +38,7 @@
                                             </div>
                                         </div>
                                         <div class="row mx-3 mb-4">
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 Asal Kota :
                                             </div>
                                             <div class="col-md-6">
@@ -41,7 +46,7 @@
                                             </div>
                                         </div>
                                         <div class="row mx-3 mb-4">
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 Alamat :
                                             </div>
                                             <div class="col-md-6">
@@ -49,7 +54,7 @@
                                             </div>
                                         </div>
                                         <div class="row mx-3 mb-4">
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 Nomor HP :
                                             </div>
                                             <div class="col-md-6">
@@ -57,13 +62,35 @@
                                             </div>
                                         </div>
                                         <div class="row mx-3 mb-4">
-                                            <div class="col-md-3">
+                                            <div class="col-md-4">
                                                 Email :
                                             </div>
                                             <div class="col-md-6">
                                                 {{$datahonorer->email}}
                                             </div>
                                         </div>
+                                        
+                                        @foreach ($kriteria as $datakriteria)
+                                        <div class="row mx-3 mb-4">
+                                            <div class="col-md-4">
+                                                {{ $datakriteria->nama_kriteria }} :
+                                            </div>
+                                            
+                                            <div class="col-md-6">
+                                                @php
+                                                    $sub=$datakriteria->subkriteria
+                                                @endphp
+                                                @foreach ($sub as $sk)
+                                                    @foreach ($itemp as $item)
+                                                        @if ($item->sub_kriteria_id===$sk->id)
+                                                            {{ $sk->rentang }}
+                                                        @endif
+                                                    @endforeach
+                                                @endforeach
+                                                
+                                            </div>
+                                        </div>
+                                        @endforeach
                                         
                                     </div>
                                 </thead>

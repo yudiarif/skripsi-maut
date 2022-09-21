@@ -29,7 +29,7 @@
     @if (auth()->user()->role_id=='1' )
         
     <li class="nav-item">
-      <a class="nav-link" href="{{ route('tenaga-honorer.index') }}">
+      <a class="nav-link" href="{{ route('calon-tenaga-honorer.index') }}">
         <i class="fas fa-fw fa-users"></i>
         <span>Data Tenaga Honorer</span>
       </a>

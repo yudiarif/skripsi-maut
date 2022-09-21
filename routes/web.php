@@ -1,15 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\TenagaHonorerController;
+use App\Http\Controllers\CalonTenagaHonorerController;
 use App\Http\Controllers\AlternatifController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\KriteriaController;
 use App\Http\Controllers\SubkriteriaController;
 use App\Http\Controllers\PenilaianController;
-use App\Http\Controllers\HasilController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\BobotController;
 use App\Http\Controllers\PerhitunganController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfilController;
@@ -25,7 +23,7 @@ use App\Http\Controllers\ProfilController;
 */
 
 Route::group(['middleware'=>['auth','admin']], function(){
-    Route::resource('tenaga-honorer', TenagaHonorerController::class);
+    Route::resource('calon-tenaga-honorer', CalonTenagaHonorerController::class);
     Route::resource('kriteria', KriteriaController::class);
     Route::resource('sub-kriteria', SubkriteriaController::class);
     Route::resource('user', UserController::class);

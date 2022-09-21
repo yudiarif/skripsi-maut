@@ -6,7 +6,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <div class="d-sm-flex align-items-center justify-content-between mb-0">
-                        <h4 class="mb-0 font-weight-bold text-info"><i class="fas fa-fw fa-plus"></i> Tambah Kriteria</h4>
+                        <h4 class="mb-0 font-weight-bold text-info"><i class="fas fa-fw fa-plus"></i> Edit Kriteria</h4>
                       </div>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -22,12 +22,13 @@
                                 </div>
                                  <div class="mb-3">
                                     <label class="font-weight-bold">Nama Kriteria</label>
-                                    <input autocomplete="off" type="text" name="kriteria" value="{{ $datakriteria->kriteria }}" id="kriteria" required class="form-control"/>
+                                    <input autocomplete="off" type="text" name="nama_kriteria" value="{{ $datakriteria->nama_kriteria }}" id="nama_kriteria" required class="form-control"/>
                                  </div>
+                                 
                             </div>
                         </div>
                     </div>
-                    <input autocomplete="off" type="hidden" name="users_id" id="users_id" value="{{ auth()->user()->id }}" required class="form-control"/>
+                    <input autocomplete="off" type="hidden" name="user_id" id="user_id" value="{{ auth()->user()->id }}" required class="form-control"/>
                     <div class="card-footer text-right">
                         <button type="submit" class="btn btn-success "><i class="fa fa-save"></i> Simpan</button>
                         <button type="reset" class="btn btn-info"><i class="fa fa-sync-alt"></i> Clear</button>

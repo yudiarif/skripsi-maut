@@ -12,12 +12,12 @@ class SubKriteria extends Model
     protected $table = 'sub_kriteria';
     protected $primaryKey = 'id';
     protected $rentang;
-    protected $kriteria_id;
     protected $nilai;
-    protected $users_id;
+    protected $kriteria_id; 
+    protected $user_id;
 
     protected $fillable = [
-        'rentang','nilai','kriteria_id','users_id'
+        'rentang','nilai','kriteria_id','user_id'
     ];
 
     public static function getSubKriteria()

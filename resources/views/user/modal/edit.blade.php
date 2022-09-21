@@ -22,10 +22,6 @@
                                         <input autocomplete="off" type="text" name="nama" id="nama" value="{{ $user->nama }}" required class="form-control"/>
                                     </div>
                                      <div class="mb-3">
-                                        <label class="font-weight-bold">Email</label>
-                                        <input autocomplete="off" type="text" name="email" id="email" value="{{ $user->email }}" required class="form-control"/>
-                                     </div>
-                                     <div class="mb-3">
                                         <label class="font-weight-bold">Username</label>
                                         <input autocomplete="off" type="text" name="username" id="username" value="{{ $user->username }}" required class="form-control"/>
                                     </div>

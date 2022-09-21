@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Bobot extends Migration
+class CalonTenagaHonorer extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,14 @@ class Bobot extends Migration
      */
     public function up()
     {
-        Schema::create('bobot',function(Blueprint $b){
+        Schema::create('calon_tenaga_honorer', function (Blueprint $b) {
             $b->id();
-            $b->float('nilai_bobot');
-            $b->foreignId('kriteria_id')->constrained('kriteria')->onUpdate('cascade')->onDelete('cascade');
+            $b->string('nama')->nullable();
+            $b->string('jenis_kelamin')->nullable();
+            $b->string('asal_kota')->nullable();
+            $b->string('alamat')->nullable();
+            $b->string('no_hp', 16)->nullable();
+            $b->string('email')->nullable();
             $b->foreignId('user_id')->nullable()->constrained('users')->onUpdate('set null')->onDelete('set null');
 
         });
@@ -29,6 +33,6 @@ class Bobot extends Migration
      */
     public function down()
     {
-        //
+        Schema::drop('calon_tenaga_honorer');
     }
 }

@@ -37,7 +37,7 @@
                             <tr>
                                 <td class="text-center"><div class="ml-0">{{ $no }}</div></td>
                                 <td class="text-center"><div class="ml-0">{{ $datakriteria->kode }}</div></td>
-                                <td class="text-center"><div class="ml-0">{{ $datakriteria->kriteria }}</div></td>                              
+                                <td class="text-center"><div class="ml-0">{{ $datakriteria->nama_kriteria }}</div></td>                              
                                 <td class="text-center">
                                     <div class="btn-group" role="group">
                                         <a data-toggle="modal" data-placement="bottom" title="Edit Data" href="#" class="btn btn-warning btn-sm" data-target="#ModalEdit{{ $datakriteria->id }}"><i class="fa fa-edit"></i></a>

@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 
-class TenagaHonorerController extends Controller
+class CalonTenagaHonorerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,15 +27,7 @@ class TenagaHonorerController extends Controller
         return view ('tenaga_honorer.index',compact('tenaga_honorer','kriteria','subkriteria','perhitungan'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -46,34 +38,24 @@ class TenagaHonorerController extends Controller
     public function store(Request $request)
     {
 
-        // $request->validate([
-        //     'nama'=>'required',
-        //     'jenis_kelamin'=>'required',
-        //     'asal_kota'=>'required',
-        //     'no_hp'=>'required',
-        //     'email'=>'required',
-        //     'alamat'=>'required',
-        //     'users_id'=>'required',
-        // ]);
-        // TenagaHonorer::create($request->all());
         $data=$request->all();
         //dd($data);
-        $tenaga_honorer= new TenagaHonorer;
+        $tenaga_honorer= new CalonTenagaHonorer;
         $tenaga_honorer->nama=$data['nama'];
         $tenaga_honorer->jenis_kelamin=$data['jenis_kelamin'];
         $tenaga_honorer->asal_kota=$data['asal_kota'];
         $tenaga_honorer->no_hp=$data['no_hp'];
         $tenaga_honorer->email=$data['email'];
         $tenaga_honorer->alamat=$data['alamat'];
-        $tenaga_honorer->users_id=$data['users_id'];
+        $tenaga_honorer->user_id=$data['user_id'];
         $tenaga_honorer->save();
 
         if($request->kriteria_id){
             foreach($data['kriteria_id']as$item=>$value){
                 $data1 =  array(
-                     'honorer_id'=>$tenaga_honorer->id,
+                     'calon_tenaga_honorer_id'=>$tenaga_honorer->id,
                      'kriteria_id'=>$data['kriteria_id'][$item],
-                     'subkriteria_id'=>$data['subkriteria_id'][$item],
+                     'sub_kriteria_id'=>$data['sub_kriteria_id'][$item],
                 );
                 Perhitungan::create($data1);
             }
@@ -83,27 +65,6 @@ class TenagaHonorerController extends Controller
         return redirect()->route('calon-tenaga-honorer.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -115,7 +76,7 @@ class TenagaHonorerController extends Controller
     public function update(Request $request, $id)
     {
         $data=$request->all();   
-        $tenaga_honorer = TenagaHonorer::with('Perhitungan')->find($id);
+        $tenaga_honorer = CalonTenagaHonorer::with('Perhitungan')->find($id);
         // $tenaga_honorer = TenagaHonorer::find($id);
         $tenaga_honorer->nama=$data['nama'];
         $tenaga_honorer->jenis_kelamin=$data['jenis_kelamin'];
@@ -123,24 +84,22 @@ class TenagaHonorerController extends Controller
         $tenaga_honorer->no_hp=$data['no_hp'];
         $tenaga_honorer->email=$data['email'];
         $tenaga_honorer->alamat=$data['alamat'];
-        $tenaga_honorer->users_id=$data['users_id'];
+        $tenaga_honorer->user_id=$data['user_id'];
         $tenaga_honorer->update($data);
 
-            foreach($data['honorer_id']as$item=>$value){
+            foreach($data['calon_tenaga_honorer_id']as$item=>$value){
                 $data2 =  array(
-                    'honorer_id'=>$data['honorer_id'][$item],
+                    'calon_tenaga_honorer_id'=>$data['calon_tenaga_honorer_id'][$item],
                     'kriteria_id'=>$data['kriteria_id'][$item],
-                    'subkriteria_id'=>$data['subkriteria_id'][$item]
+                    'sub_kriteria_id'=>$data['sub_kriteria_id'][$item]
                 );
                 //dd($data);
                 // Perhitungan::where('kriteria_id',$request->kriteria_id[$item])
                 //            ->where('honorer_id',$request->honorer_id[$item])
                 //            ->update($data2);
-                Perhitungan::updateOrCreate(['honorer_id'=>$data['honorer_id'][$item],'kriteria_id'=>$data['kriteria_id'][$item]],$data2);
+                Perhitungan::updateOrCreate(['calon_tenaga_honorer_id'=>$data['calon_tenaga_honorer_id'][$item],'kriteria_id'=>$data['kriteria_id'][$item]],$data2);
                 
             }
-
-
 
 
         toast('Data berhasil diedit','info');
@@ -155,7 +114,7 @@ class TenagaHonorerController extends Controller
      */
     public function destroy($id)
     {
-        TenagaHonorer::find($id)->delete();
+        CalonTenagaHonorer::find($id)->delete();
         toast('Data berhasil dihapus','info');
         return redirect()->route('calon-tenaga-honorer.index');
     }
